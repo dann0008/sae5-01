@@ -1,0 +1,17 @@
+sae5_01: 
+  target: dev # Environnement utilisé par default
+  outputs:
+    dev:
+      type: postgres # Type de base de données utilisé 
+      host: localhost # nom d'hote sur lequel se connecter
+      user: dann0008 # utilisateur sur lequel se connecter à la base de données
+      password: sae51 # mot de passe de l'utilisateur
+      port: 5432 # port sur lequel se trouve la base de données
+      dbname: sae5-01 # nom de la base de données à utiliser
+      schema: public # schéma sur la base de données à consulter
+
+
+
+
+
+  

@@ -1,0 +1,119 @@
+version: 2
+
+sources:
+  - name: sae5-01
+    description: Base de données contenant les données brutes du projet
+    schema: public
+    tables:
+      - name: ville
+        columns:
+          - name: id
+            description: Clé Primaire de la table
+            tests:
+              - unique
+              - not_null
+          - name: nom
+            description: Nom de la ville
+            tests:
+              - not_null
+          - name: code_postal
+            description: Code Postal de la ville (inutile donc sera supprimé)            
+
+models:
+  - name: 1_region_traite
+    columns:
+      - name: id
+        tests:
+          - unique
+          - not_null
+      - name: nom
+        tests:
+          - unique
+          - not_null
+  - name: 2_departement_traite
+    columns:
+      - name: code
+        tests:
+          - unique
+          - not_null
+      - name: nom
+        tests:
+          - unique
+          - not_null
+      - name: region
+        tests:
+          - relationships:
+              to: ref('1_region_traite')
+              field: id
+          - not_null
+  - name: 3_ville_traite
+    columns:
+      - name: id
+        tests:
+          - unique
+          - not_null
+      - name: nom
+        tests:
+          - not_null
+      - name: epci
+        tests:
+          - relationships:
+              to: ref('5_epci_traite')
+              field: id
+          - not_null
+  - name: 4_personne_traite
+    columns:
+      - name: id
+        tests:
+          - unique
+          - not_null
+      - name: sexe
+        tests:
+            - accepted_values:
+                values: ['Femme', 'Homme']
+            - not_null
+      - name: datedeces
+        tests:
+          - not_null
+      - name: age
+        tests:
+          - not_null
+      - name: ville
+        tests:
+          - relationships:
+              to: ref('3_ville_traite')
+              field: id
+  - name: 5_epci_traite
+    columns:
+      - name: id
+        tests:
+          - unique
+          - not_null
+      - name: nom
+        tests:
+          - not_null
+      - name: departement
+        tests:
+          - relationships:
+              to: ref('2_departement_traite')
+              field: code
+          - not_null
+
+  - name: 6_conditionmeteo_traite
+    columns:
+      - name: id
+        tests:
+          - unique
+          - not_null
+      - name: temperature
+        tests:
+          - not_null
+      - name: date
+        tests:
+          - not_null
+      - name: epci
+        tests:
+          - relationships:
+              to: ref('5_epci_traite')
+              field: id
+          - not_null
